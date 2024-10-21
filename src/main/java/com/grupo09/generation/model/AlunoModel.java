@@ -1,13 +1,6 @@
 package com.grupo09.generation.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
@@ -24,8 +17,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 
 @Entity
+@Table(name = "tab_alunos")
 public class AlunoModel {
-   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
