@@ -10,4 +10,5 @@ import com.grupo09.generation.model.FuncionarioModel;
 @Repository
 public interface FuncionarioRepository extends JpaRepository<FuncionarioModel, Long> {
     Optional<FuncionarioModel> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
