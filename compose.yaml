@@ -3,7 +3,7 @@ services:
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=${POSTGRES_DB}'
-      - 'POSTGRES_USERNAME=${POSTGRES_USERNAME}'
+      - 'POSTGRES_USER=${POSTGRES_USERNAME}'
       - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'
     ports:
       - '5432'
