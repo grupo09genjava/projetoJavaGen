@@ -53,6 +53,4 @@ public class AlunoModel {
     @ManyToOne
     @JoinColumn(name = "turma_id")  // Cria a coluna que vai guardar a referência da turma
     private TurmaModel turmas;
-
-    
 }

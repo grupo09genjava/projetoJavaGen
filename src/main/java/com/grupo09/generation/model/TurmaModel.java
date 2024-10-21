@@ -24,6 +24,6 @@ public class TurmaModel {
     @Size(min = 3, message = "Instrutor deve ter pelo menos 3 caracteres")
     private String instrutor;
 
-    @OneToMany(mappedBy = "turma")
+    @OneToMany(mappedBy = "turmas")
     private List<AlunoModel> alunos;
 }
