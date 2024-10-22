@@ -1,13 +1,10 @@
 package com.grupo09.generation.util;
-
-import com.grupo09.generation.dto.out.TurmaOutput;
 import com.grupo09.generation.model.AlunoModel;
 import com.grupo09.generation.model.TurmaModel;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class TestModelFactory{
     public static TurmaModel createTurma(Long id, String nome, String instrutor, List<AlunoModel> alunos) {
