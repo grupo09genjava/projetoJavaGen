@@ -1,24 +1,22 @@
 package com.grupo09.generation.model;
 
+import com.grupo09.generation.dto.in.CreateAluno;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 @Table(name = "tab_alunos")
-public class AlunoModel {
+@Builder
+public class AlunoModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,6 +42,26 @@ public class AlunoModel {
     private Double media;
 
     @ManyToOne
-    @JoinColumn(name = "turma_id")  // Cria a coluna que vai guardar a referência da turma
-    private TurmaModel turmas;
+    @JoinColumn(name = "turma_id")
+    private TurmaModel turma;
+
+    public AlunoModel(String nome, String email, Integer idade, Double notaPrimeiroModulo, Double notaSegundoModulo, Double media) {
+        this.nome = nome;
+        this.email = email;
+        this.idade = idade;
+        this.notaPrimeiroModulo = notaPrimeiroModulo;
+        this.notaSegundoModulo = notaSegundoModulo;
+        this.media = media;
+    }
+
+    public static AlunoModel toEntity(CreateAluno createAluno) {
+        return new AlunoModel(
+                createAluno.nome(),
+                createAluno.email(),
+                createAluno.idade(),
+                createAluno.notaPrimeiroModulo(),
+                createAluno.notaSegundoModulo(),
+                null
+        );
+    }
 }
