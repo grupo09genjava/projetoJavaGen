@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 
 import java.util.Optional;
 
-public record CreateAluno(
+public record UpdateAluno(
         @NotBlank(message = "O nome é obrigatório")
         @Size(min = 3, max = 100, message = "O campo nome deve ter no mínimo 3 caracteres")
         String nome,
@@ -13,6 +13,10 @@ public record CreateAluno(
         String email,
         @NotNull(message = "A idade é obrigatória")
         @Positive(message = "A idade deve ser um número positivo")
-        Integer idade
+        Integer idade,
+        @Max(value = 10, message = "A nota do primeiro módulo deve ser no máximo 10")
+        Double notaPrimeiroModulo,
+        @Max(value = 10, message = "A nota do primeiro módulo deve ser no máximo 10")
+        Double notaSegundoModulo
 ){
 }

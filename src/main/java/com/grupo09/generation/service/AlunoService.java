@@ -1,10 +1,15 @@
 package com.grupo09.generation.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.grupo09.generation.dto.in.UpdateAluno;
+import com.grupo09.generation.dto.in.CreateAluno;
+import com.grupo09.generation.dto.out.AlunoOutput;
+import com.grupo09.generation.exception.EmailAlreadyExistException;
+import com.grupo09.generation.exception.NotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.grupo09.generation.model.AlunoModel;
 import com.grupo09.generation.repository.AlunoRepository;
@@ -16,23 +21,33 @@ public class AlunoService {
     @Autowired
     private AlunoRepository alunoRepository;
     
-    public List<AlunoModel> getAll() {
-        return alunoRepository.findAll();
+    public List<AlunoOutput> findAll() {
+        return alunoRepository.findAll().stream()
+                .map(AlunoOutput::fromEntity)
+                .collect(Collectors.toList());
     }
 
-    public AlunoModel salvar(AlunoModel aluno) {
-        if (alunoRepository.findByEmail(aluno.getEmail()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado.");
+    public AlunoOutput save(CreateAluno createAluno) {
+        if (alunoRepository.findByEmail(createAluno.email()).isPresent()) {
+            throw new EmailAlreadyExistException("Email já cadastrado no banco de dados");
         }
-        return alunoRepository.save(aluno);
+        return AlunoOutput.fromEntity(alunoRepository.save(AlunoModel.toEntity(createAluno)));
     }
 
-    public AlunoModel buscarPorId(Long id) {
-        return alunoRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
+    public AlunoOutput findById(Long id) {
+         AlunoModel alunoModel = alunoRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+         return AlunoOutput.fromEntity(alunoModel);
     }
 
-    public void deletar(Long id) {
+    public AlunoOutput put(Long id, UpdateAluno updateAluno){
+        AlunoModel alunoModel = alunoRepository.findById(id).orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+        BeanUtils.copyProperties(updateAluno, alunoModel);
+        alunoModel.atualizarMedia();
+        return AlunoOutput.fromEntity(alunoRepository.save(alunoModel));
+    }
+
+    public void deleteById(Long id) {
         alunoRepository.deleteById(id);
     }
 }

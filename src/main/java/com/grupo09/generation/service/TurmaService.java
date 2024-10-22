@@ -4,8 +4,8 @@ import com.grupo09.generation.dto.in.CreateAluno;
 import com.grupo09.generation.dto.in.CreateTurma;
 import com.grupo09.generation.dto.in.UpdateTurma;
 import com.grupo09.generation.dto.out.TurmaOutput;
-import com.grupo09.generation.exception.AlunoAlreadyExistException;
-import com.grupo09.generation.exception.TurmaNotFoundException;
+import com.grupo09.generation.exception.EmailAlreadyExistException;
+import com.grupo09.generation.exception.NotFoundException;
 import com.grupo09.generation.model.AlunoModel;
 import com.grupo09.generation.model.TurmaModel;
 import com.grupo09.generation.repository.AlunoRepository;
@@ -34,7 +34,6 @@ public class TurmaService {
                .collect(Collectors.toList());
     }
 
-
     @Transactional
     public TurmaOutput save(CreateTurma createTurma){
         TurmaModel turmaModel = TurmaModel.builder()
@@ -47,7 +46,7 @@ public class TurmaService {
                 AlunoModel aluno = AlunoModel.toEntity(createAluno);
                 Optional<AlunoModel> foundAluno = alunoRepository.findByEmail(aluno.getEmail());
                 if (foundAluno.isPresent()) {
-                    throw new AlunoAlreadyExistException("Email já existente no banco de dados");
+                    throw new EmailAlreadyExistException("Email já existente no banco de dados");
                 }
                 AlunoModel savedAluno = alunoRepository.save(aluno);
                 turmaModel.addAluno(savedAluno);
@@ -58,17 +57,17 @@ public class TurmaService {
     }
 
     public TurmaOutput findById(Long id){
-        TurmaModel turmaModel = turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException("Turma não encontrada"));
+        TurmaModel turmaModel = turmaRepository.findById(id).orElseThrow(() -> new NotFoundException("Turma não encontrada"));
         return TurmaOutput.fromEntity(turmaModel);
     }
 
     public void deleteById(Long id){
-        TurmaModel turmaModel = turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException("Turma não encontrada"));
+        TurmaModel turmaModel = turmaRepository.findById(id).orElseThrow(() -> new NotFoundException("Turma não encontrada"));
         turmaRepository.deleteById(id);
     }
 
     public TurmaOutput put(Long id, UpdateTurma updateTurma){
-        TurmaModel turmaModel = turmaRepository.findById(id).orElseThrow(() -> new TurmaNotFoundException("Turma não encontrada"));
+        TurmaModel turmaModel = turmaRepository.findById(id).orElseThrow(() -> new NotFoundException("Turma não encontrada"));
         turmaModel.setNome(updateTurma.nome());
         turmaModel.setInstrutor(updateTurma.instrutor());
         turmaRepository.save(turmaModel);

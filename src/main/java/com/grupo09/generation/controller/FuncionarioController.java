@@ -7,14 +7,15 @@ import com.grupo09.generation.service.FuncionarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
+@RequestMapping("/api/v1")
 public class FuncionarioController {
-
     @Autowired
     private FuncionarioService service;
 
@@ -23,7 +24,7 @@ public class FuncionarioController {
             @ApiResponse(responseCode = "200", description = "Retorna o Funcionário"),
             @ApiResponse(responseCode = "400", description = "Funcionário Não Encontrada")
     })
-    @GetMapping(path = "/api/funcionario/{id}")
+    @GetMapping(path = "/funcionario/{id}")
     public ResponseEntity<FuncionarioOutput> getFuncionario(@PathVariable("id") Long id){
         return ResponseEntity.ok().body(service.findById(id));
 
@@ -32,29 +33,28 @@ public class FuncionarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Retorna os Funcionários"),
     })
-    @GetMapping(path = "/api/funcionarios")
+    @GetMapping(path = "/funcionarios")
     public ResponseEntity<Iterable<FuncionarioOutput>> listFuncionarios(){
         return ResponseEntity.ok().body(service.findAll());
     }
 
     @Operation(description = "Cadastra o Funcionário")
-    @PostMapping(path = "/api/funcionario/salvar")
-    public ResponseEntity<FuncionarioOutput> postFuncionario(@RequestBody CreateFuncionario funcionario, UriComponentsBuilder uriComponentsBuilder){
+    @PostMapping(path = "/funcionario/cadastrar")
+    public ResponseEntity<FuncionarioOutput> postFuncionario(@Valid @RequestBody CreateFuncionario funcionario,UriComponentsBuilder uriComponentsBuilder){
         FuncionarioOutput output = service.save(funcionario);
-        var uri = uriComponentsBuilder.path("/api/funcionario/{id}").buildAndExpand(output.funcionarioId()).toUri();
+        var uri = uriComponentsBuilder.path("/funcionario/{id}").buildAndExpand(output.funcionarioId()).toUri();
         return ResponseEntity.created(uri).body(output);
     }
 
-    @PutMapping(path = "/api/funcionario/{id}")
+    @PutMapping(path = "/funcionario/{id}")
     public ResponseEntity<FuncionarioOutput> updateFuncionario(@PathVariable("id") Long id, @RequestBody UpdateFuncionario funcionario) {
         return ResponseEntity.ok().body(service.put(id, funcionario));
     }
 
     @Operation(description = "Deleta um Funcionário")
-    @DeleteMapping(path = "/api/funcionario/{id}")
+    @DeleteMapping(path = "/funcionario/{id}")
     public ResponseEntity<Void> deleteFuncionario(@PathVariable("id") Long id){
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
 }

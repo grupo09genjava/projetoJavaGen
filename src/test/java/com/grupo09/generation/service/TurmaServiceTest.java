@@ -3,7 +3,7 @@ package com.grupo09.generation.service;
 import com.grupo09.generation.dto.in.CreateTurma;
 import com.grupo09.generation.dto.in.UpdateTurma;
 import com.grupo09.generation.dto.out.TurmaOutput;
-import com.grupo09.generation.exception.TurmaNotFoundException;
+import com.grupo09.generation.exception.NotFoundException;
 import com.grupo09.generation.model.TurmaModel;
 import com.grupo09.generation.repository.TurmaRepository;
 import com.grupo09.generation.util.TestModelFactory;
@@ -67,7 +67,7 @@ class TurmaServiceTest{
     void findById_whenNotFound_shouldThrowException() {
         BDDMockito.when(turmaRepository.findById(2L)).thenReturn(Optional.empty());
 
-        assertThrows(TurmaNotFoundException.class,() -> turmaService.findById(2L));
+        assertThrows(NotFoundException.class,() -> turmaService.findById(2L));
     }
 
     @Test
