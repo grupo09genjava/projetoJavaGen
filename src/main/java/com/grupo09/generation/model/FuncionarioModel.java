@@ -18,20 +18,12 @@ public class FuncionarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "funcionario_id")
     private Long Id;
-
-    @NotBlank(message = "O nome do funcionário é obrigatório")
-    @Size(min = 3, max = 100, message = "Nome deve ter no mínimo 3 caracteres")
+    @Column(nullable = false)
     private String nome;
-
-    @Email(message = "email inválido")
-    @NotBlank(message = "O email é obrigatório")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
-
-    @NotBlank(message = "A campo senha é obrigatório")
-    @Size(min = 6, max = 100, message = "A senha deve ter no mínimo 6 caracteres")
+    @Column(nullable = false)
     private String senha;
-
-    @NotBlank(message = "O campo cargo é obrigatório")
+    @Column(nullable = false)
     private String cargo;
 }

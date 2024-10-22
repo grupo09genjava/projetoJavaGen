@@ -2,10 +2,7 @@ package com.grupo09.generation.model;
 
 import java.util.List;
 
-import com.grupo09.generation.dto.in.CreateTurma;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -20,15 +17,10 @@ public class TurmaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "turma_id")
     private Long id;
-
-    @NotBlank(message = "Nome é obrigatório")
-    @Size(min = 3, message = "Nome deve ter pelo menos 3 caracteres")
+    @Column(nullable = false)
     private String nome;
-
-    @NotBlank(message = "Instrutor é obrigatório")
-    @Size(min = 3, message = "Instrutor deve ter pelo menos 3 caracteres")
+    @Column(nullable = false)
     private String instrutor;
-
     @OneToMany(mappedBy = "turma")
     private List<AlunoModel> alunos;
 
