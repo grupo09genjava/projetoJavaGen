@@ -57,10 +57,5 @@ public class TurmaController {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
 }
 

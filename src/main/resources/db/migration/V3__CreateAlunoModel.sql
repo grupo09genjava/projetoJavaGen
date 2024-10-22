@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "tab_alunos"(
-    aluno_id INTEGER PRIMARY KEY,
+    aluno_id SERIAL PRIMARY KEY,
     nome VARCHAR(128) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     idade INTEGER NOT NULL,
