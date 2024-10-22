@@ -4,7 +4,6 @@ import com.grupo09.generation.model.AlunoModel;
 import com.grupo09.generation.model.TurmaModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public record CreateTurma(String nome, String instrutor, List<CreateAluno> alunos){
