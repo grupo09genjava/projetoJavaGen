@@ -34,6 +34,7 @@ public class TurmaService {
                .collect(Collectors.toList());
     }
 
+
     @Transactional
     public TurmaOutput save(CreateTurma createTurma){
         TurmaModel turmaModel = TurmaModel.builder()
