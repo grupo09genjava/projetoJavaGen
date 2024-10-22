@@ -18,6 +18,7 @@ import lombok.*;
 public class TurmaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "turma_id")
     private Long id;
 
     @NotBlank(message = "Nome é obrigatório")

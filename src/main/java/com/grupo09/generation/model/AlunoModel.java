@@ -2,11 +2,7 @@ package com.grupo09.generation.model;
 
 import com.grupo09.generation.dto.in.CreateAluno;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
@@ -19,6 +15,7 @@ import lombok.*;
 public class AlunoModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "aluno_id")
     private Long id;
 
     @NotBlank(message = "O nome é obrigatório")
@@ -30,6 +27,7 @@ public class AlunoModel{
     @Column(unique = true)
     private String email;
 
+    @NotNull(message = "A idade é obrigatória")
     @Positive(message = "A idade deve ser um número positivo")
     private Integer idade;
 
@@ -41,11 +39,11 @@ public class AlunoModel{
 
     private Double media;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "turma_id")
     private TurmaModel turma;
 
-    public AlunoModel(String nome, String email, Integer idade, Double notaPrimeiroModulo, Double notaSegundoModulo, Double media) {
+    public AlunoModel(String nome,String email,Integer idade,Double notaPrimeiroModulo,Double notaSegundoModulo,Double media){
         this.nome = nome;
         this.email = email;
         this.idade = idade;
@@ -54,14 +52,25 @@ public class AlunoModel{
         this.media = media;
     }
 
-    public static AlunoModel toEntity(CreateAluno createAluno) {
+    public static AlunoModel toEntity(CreateAluno createAluno){
+        double notaPrimeiroModulo = createAluno.notaPrimeiroModulo().orElse(0.0);
+        double notaSegundoModulo = createAluno.notaSegundoModulo().orElse(0.0);
+        double media = createAluno.media().isEmpty() ? 0.0 : calculateMedia(notaPrimeiroModulo,notaSegundoModulo);
         return new AlunoModel(
                 createAluno.nome(),
                 createAluno.email(),
                 createAluno.idade(),
-                createAluno.notaPrimeiroModulo(),
-                createAluno.notaSegundoModulo(),
-                null
+                notaPrimeiroModulo,
+                notaSegundoModulo,
+                media
         );
+    }
+
+    private static double calculateMedia(Double notaPrimeiroModulo,Double notaSegundoModulo){
+        if (notaPrimeiroModulo != null && notaSegundoModulo != null) {
+            return (notaPrimeiroModulo + notaSegundoModulo) / 2;
+        } else {
+            return 0.0;
+        }
     }
 }
