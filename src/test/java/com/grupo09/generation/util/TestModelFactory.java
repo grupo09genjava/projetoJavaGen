@@ -1,52 +1,48 @@
 package com.grupo09.generation.util;
-import com.grupo09.generation.model.AlunoModel;
-import com.grupo09.generation.model.TurmaModel;
-
+import com.grupo09.generation.model.StudentModel;
+import com.grupo09.generation.model.ClassModel;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-public class TestModelFactory{
-    public static TurmaModel createTurma(Long id, String nome, String instrutor, List<AlunoModel> alunos) {
-        return TurmaModel.builder()
+public class TestModelFactory {
+    public static ClassModel createClass(Long id, String name, String instructor, List<StudentModel> students) {
+        return ClassModel.builder()
                 .id(id)
-                .nome(nome)
-                .instrutor(instrutor)
-                .alunos(alunos)
+                .name(name)
+                .instructor(instructor)
+                .students(students)
                 .build();
     }
 
-    public static AlunoModel createAluno(Long id, String nome, String email, int idade,
-                                         double notaPrimeiroModulo, double notaSegundoModulo,
-                                         double media, TurmaModel turma) {
-        return AlunoModel.builder()
+    public static StudentModel createDefaultStudent(Long id, String name, ClassModel classModel) {
+        var email = name + "@mail.com";
+        return createStudent(id, name, email, 18, 7.0, 7.5, 7.25, classModel);
+    }
+
+    public static StudentModel createStudent(Long id, String name, String email, int age,
+                                             double firstModuleGrade, double secondModuleGrade,
+                                             double average, ClassModel classModel) {
+        return StudentModel.builder()
                 .id(id)
-                .nome(nome)
+                .name(name)
                 .email(email)
-                .idade(idade)
-                .notaPrimeiroModulo(notaPrimeiroModulo)
-                .notaSegundoModulo(notaSegundoModulo)
-                .media(media)
-                .turma(turma)
+                .age(age)
+                .firstModuleScore(firstModuleGrade)
+                .secondModuleScore(secondModuleGrade)
+                .average(average)
+                .tbClass(classModel)
                 .build();
     }
 
-    public static AlunoModel createDefaultAluno(Long id, String nome, TurmaModel turma) {
-        var email = nome + "@mail.com";
-        return createAluno(id, nome, email , 18, 7.0, 7.5, 7.25, turma);
+    public static ClassModel createClassWithDefaultStudents() {
+        ClassModel classModel = createClass(1L, "Class 1", "Joselito", Collections.emptyList());
+        StudentModel student1 = createDefaultStudent(1L, "João", classModel);
+        StudentModel student2 = createDefaultStudent(2L, "Maria", classModel);
+        classModel.setStudents(Arrays.asList(student1, student2));
+        return classModel;
     }
 
-    public static TurmaModel createTurmaWithDefaultAlunos() {
-        TurmaModel turma = createTurma(1L, "Turma 1", "Joselito", Collections.emptyList());
-        AlunoModel aluno1 = createDefaultAluno(1L, "João", turma);
-        AlunoModel aluno2 = createDefaultAluno(2L, "Maria", turma);
-        turma.setAlunos(Arrays.asList(aluno1, aluno2));
-        return turma;
+    public static ClassModel createEmptyClass() {
+        return createClass(2L, "Class 2", "Cloudio", Collections.emptyList());
     }
-
-
-    public static TurmaModel createEmptyTurma() {
-        return createTurma(2L, "Turma 2", "Cloudio", Collections.emptyList());
-    }
-
 }
