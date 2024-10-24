@@ -1,0 +1,83 @@
+# Arquivos de build Maven
+target/
+!target/*.jar
+*.class
+.mvn/
+mvnw
+mvnw.cmd
+
+# Arquivos de build Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IDEs e editores
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+*.swp
+*.swo
+.settings/
+.project
+.classpath
+.factorypath
+.apt_generated
+.springBeans
+.sts4-cache
+
+# Logs
+logs/
+*.log
+log/
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de ambiente e configuração
+.env
+.env.*
+!.env.example
+application-*.properties
+!application.properties
+!application-example.properties
+application-*.yml
+!application.yml
+!application-example.yml
+
+# Arquivos de desenvolvimento e testes
+**/src/test/
+**/test/
+**/tests/
+**/META-INF/
+README.md
+HELP.md
+*.md
+!README.md
+
+# Arquivos Docker
+Dockerfile*
+docker-compose*.yml
+compose.yaml
+.docker/
+
+# Arquivos Git
+.git/
+.gitignore
+.gitattributes
+
+# Arquivos temporários
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Relatórios de cobertura e qualidade de código
+jacoco/
+sonar/
+coverage/
+.scannerwork/
