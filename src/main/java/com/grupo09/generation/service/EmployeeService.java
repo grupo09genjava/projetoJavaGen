@@ -47,7 +47,7 @@ public class EmployeeService {
 
     public EmployeeOutput findById(Long id) {
         EmployeeModel employeeModel = this.employeeRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Employee Not Found"));
+                .orElseThrow(() -> new NotFoundException("Employee not found."));
         return EmployeeOutput.fromEntity(employeeModel);
     }
 

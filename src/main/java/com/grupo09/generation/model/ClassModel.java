@@ -24,6 +24,7 @@ public class ClassModel {
     @Column(nullable = false)
     private String instructor;
 
+    @Setter
     @OneToMany(mappedBy = "tbClass", cascade = CascadeType.ALL)
     private List<StudentModel> students = new ArrayList<>();
 
@@ -37,7 +38,8 @@ public class ClassModel {
         this.instructor = instructor;
     }
 
-    public static ClassModel toEntity(String name,String instructor,List<StudentModel> students) {
+    public static ClassModel toEntity(String name,String instructor) {
         return new ClassModel(name, instructor);
     }
+
 }
