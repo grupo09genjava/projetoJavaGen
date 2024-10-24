@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.grupo09.generation.model.FuncionarioModel;
+import com.grupo09.generation.model.EmployeeModel;
 
 @Repository
-public interface FuncionarioRepository extends JpaRepository<FuncionarioModel, Long> {
-    Optional<FuncionarioModel> findByEmail(String email);
+public interface EmployeeRepository extends JpaRepository<EmployeeModel, Long> {
+    Optional<EmployeeModel> findByEmail(String email);
     boolean existsByEmail(String email);
 }

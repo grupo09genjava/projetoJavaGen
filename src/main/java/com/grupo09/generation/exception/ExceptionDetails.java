@@ -1,6 +1,5 @@
 package com.grupo09.generation.exception;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 

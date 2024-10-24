@@ -36,10 +36,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                         .details(ex.getMessage()).build(),HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(EmailAlreadyExistException.class)
-    public ResponseEntity<EmailAlreadyExistExceptionDetails> handleEmailAlreadyExist(EmailAlreadyExistException ex){
+    public ResponseEntity<EmailAlreadyExistExceptionDetails> handleEmailAlreadyExistException(EmailAlreadyExistException ex){
         return new ResponseEntity<>(
                 EmailAlreadyExistExceptionDetails.builder().timestamp(LocalDateTime.now()).error("Conflict").status(HttpStatus.CONFLICT.value())
                         .details(ex.getMessage()).build(),HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<UnauthorizedExceptionDetails> handleUnauthorizedException(UnauthorizedException ex){
+        return new ResponseEntity<>(
+                UnauthorizedExceptionDetails.builder().timestamp(LocalDateTime.now()).error("Conflict").status(HttpStatus.UNAUTHORIZED.value())
+                        .details(ex.getMessage()).build(),HttpStatus.UNAUTHORIZED);
     }
 
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
