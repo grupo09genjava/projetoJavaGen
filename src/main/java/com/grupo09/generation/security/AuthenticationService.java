@@ -6,28 +6,28 @@ import com.grupo09.generation.exception.NotFoundException;
 import com.grupo09.generation.exception.UnauthorizedException;
 import com.grupo09.generation.model.EmployeeModel;
 import com.grupo09.generation.repository.EmployeeRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticationService{
-    private EmployeeRepository employeeRepository;
-    private JwtService jwtService;
-    private PasswordEncoder passwordEncoder;
+public class AuthenticationService {
+    private final EmployeeRepository employeeRepository;
+    private final JwtGenerate jwtGenerate;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationService(EmployeeRepository employeeRepository,JwtService jwtService,PasswordEncoder passwordEncoder){
+    public AuthenticationService(EmployeeRepository employeeRepository,JwtGenerate jwtGenerate,PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
-        this.jwtService = jwtService;
+        this.jwtGenerate = jwtGenerate;
         this.passwordEncoder = passwordEncoder;
     }
 
     public LoginOutput authenticate(LoginEmployee loginEmployee) {
-        EmployeeModel funcionario = this.employeeRepository.findByEmail(
-                loginEmployee.email()).orElseThrow(() -> new NotFoundException("Funcionario nao encontrado no banco de dados"));
-        if(!funcionario.isLoginCorrect(loginEmployee,passwordEncoder)){
-            throw new UnauthorizedException("Insira as credenciais validas");
+        EmployeeModel employee = this.employeeRepository.findByEmail(
+                loginEmployee.email()).orElseThrow(() -> new NotFoundException("Employee not found in the database"));
+        if (!employee.isLoginCorrect(loginEmployee, passwordEncoder)) {
+            throw new UnauthorizedException("Please enter valid credentials");
         }
-        return jwtService.generateToken(funcionario);
+        return jwtGenerate.token(employee);
     }
 }
+
