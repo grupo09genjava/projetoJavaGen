@@ -30,7 +30,7 @@ public class TestModelFactory {
                 .firstModuleScore(firstModuleGrade)
                 .secondModuleScore(secondModuleGrade)
                 .average(average)
-                .classes(classModel)
+                .tbClass(classModel)
                 .build();
     }
 
