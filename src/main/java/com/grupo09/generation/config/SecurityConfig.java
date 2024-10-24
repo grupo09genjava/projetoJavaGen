@@ -43,8 +43,7 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/swagger-ui/**").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/v1/auth/**", "/v3/api-docs", "/swagger-ui/**", "/v3/api-docs/**").permitAll()                        .anyRequest().authenticated())
                 .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .build();

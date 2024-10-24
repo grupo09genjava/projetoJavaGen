@@ -19,6 +19,6 @@ public record RegisterClass(
     public static ClassModel toEntity(RegisterClass registerClass){
         List<StudentModel> students = new ArrayList<>();
         registerClass.students().forEach(student -> students.add(StudentModel.toEntity(student)));
-        return ClassModel.toEntity(registerClass.name(),registerClass.instructor(),students);
+        return ClassModel.toEntity(registerClass.name(),registerClass.instructor());
     }
 }

@@ -12,6 +12,7 @@ import com.grupo09.generation.repository.StudentRepository;
 import com.grupo09.generation.repository.ClassRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ClassService {
     private final ClassRepository classRepository;
     private final StudentRepository studentRepository;
     public List<ClassOutput> findAll() {
-        return classRepository.findAll().stream()
+        return this.classRepository.findAll().stream()
                 .map(ClassOutput::fromEntity)
                 .collect(Collectors.toList());
     }
@@ -40,35 +41,34 @@ public class ClassService {
         if (registerClass.students() != null) {
             for (RegisterStudent registerStudent : registerClass.students()) {
                 StudentModel student = StudentModel.toEntity(registerStudent);
-                Optional<StudentModel> foundStudent = studentRepository.findByEmail(student.getEmail());
+                Optional<StudentModel> foundStudent = this.studentRepository.findByEmail(student.getEmail());
                 if (foundStudent.isPresent()) {
                     throw new EmailAlreadyExistException("Email already exists in the database");
                 }
                 classModel.addStudent(student);
             }
         }
-        classRepository.save(classModel);
+        this.classRepository.save(classModel);
         return ClassOutput.fromEntity(classModel);
     }
 
     public ClassOutput findById(Long id) {
-        ClassModel classModel = classRepository.findById(id)
+        ClassModel classModel = this.classRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Class not found"));
         return ClassOutput.fromEntity(classModel);
     }
 
     public void deleteById(Long id) {
-        ClassModel classModel = classRepository.findById(id)
+        ClassModel classModel = this.classRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Class not found"));
-        classRepository.deleteById(id);
+        this.classRepository.deleteById(id);
     }
 
     public ClassOutput putById(Long id, UpdateClass updateClass) {
-        ClassModel classModel = classRepository.findById(id)
+        ClassModel classModel = this.classRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Class not found"));
-        classModel.setName(updateClass.name());
-        classModel.setInstructor(updateClass.instructor());
-        classRepository.save(classModel);
+        BeanUtils.copyProperties(updateClass, classModel);
+        this.classRepository.save(classModel);
         return ClassOutput.fromEntity(classModel);
     }
 }
