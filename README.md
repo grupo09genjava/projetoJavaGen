@@ -18,7 +18,7 @@ Foi desenvolvido para fornecer um serviço back-end robusto e modular, utilizand
 ## Documentação
 
    ```bash
-   https://projetojavagen-7qgg.onrender.com/swagger-ui/index.html#/
+   https://msschool.onrender.com)/swagger-ui/index.html#/
    ```
 Foi desenvolvido para fornecer um serviço back-end robusto e modular, utilizando tecnologias como Java, Spring Boot, PostgreSQL, Spring Security e Docker, facilitando a manutenção e evolução da aplicação.
 
