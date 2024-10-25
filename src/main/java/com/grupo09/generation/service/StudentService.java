@@ -8,6 +8,7 @@ import com.grupo09.generation.dto.in.RegisterStudent;
 import com.grupo09.generation.dto.out.StudentOutput;
 import com.grupo09.generation.exception.EmailAlreadyExistException;
 import com.grupo09.generation.exception.NotFoundException;
+import com.grupo09.generation.repository.ClassRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class StudentService {
     private StudentRepository studentRepository;
+    private ClassRepository classRepository;
 
     public List<StudentOutput> findAll() {
         return studentRepository.findAll().stream()
@@ -28,10 +30,13 @@ public class StudentService {
     }
 
     public StudentOutput save(RegisterStudent registerStudent) {
+        var classFound = this.classRepository.findById(registerStudent.classId()).orElseThrow(() -> new NotFoundException("Class not found"));
         if (studentRepository.findByEmail(registerStudent.email()).isPresent()) {
             throw new EmailAlreadyExistException("Email already registered in the database");
         }
-        return StudentOutput.fromEntity(studentRepository.save(StudentModel.toEntity(registerStudent)));
+        var savedStudent = StudentModel.toEntity(registerStudent);
+        savedStudent.setTbClass(classFound);
+        return StudentOutput.fromEntity(studentRepository.save(savedStudent));
     }
 
     public StudentOutput findById(Long id) {
