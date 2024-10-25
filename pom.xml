@@ -127,13 +127,19 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>dev</id>
+			<id>prod</id>
 			<properties>
-				<activatedProperties>dev</activatedProperties>
+				<activatedProperties>prod</activatedProperties>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
 		</profile>
 		<profile>
 			<id>test</id>
