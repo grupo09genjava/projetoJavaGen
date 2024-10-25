@@ -31,6 +31,6 @@ public class JwtGenerate{
                 .subject(employeeModel.getId().toString())
                 .build();
         String accessToken = encoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
-        return new LoginOutput(accessToken, expiresIn);
+        return new LoginOutput(accessToken);
     }
 }
