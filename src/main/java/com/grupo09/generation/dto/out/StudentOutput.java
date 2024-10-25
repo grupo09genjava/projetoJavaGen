@@ -11,7 +11,8 @@ public record StudentOutput(
         int age,
         Optional<Double> firstModuleScore,
         Optional<Double> secondModuleScore,
-        Optional<Double> average
+        Optional<Double> average,
+        Long classId
 ) {
     public static StudentOutput fromEntity(StudentModel studentModel) {
         return new StudentOutput(
@@ -21,7 +22,8 @@ public record StudentOutput(
                 studentModel.getAge(),
                 studentModel.getFirstModuleScore(),
                 studentModel.getSecondModuleScore(),
-                studentModel.getAverage()
+                studentModel.getAverage(),
+                studentModel.getTbClass().getId()
         );
     }
 }

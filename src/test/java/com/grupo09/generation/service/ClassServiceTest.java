@@ -86,5 +86,4 @@ class ClassServiceTest {
         assertEquals(updateClass.name(), output.name());
         assertEquals(updateClass.instructor(), output.instructor());
     }
-
 }
