@@ -6,12 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.method.MethodValidationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
@@ -20,33 +18,50 @@ import java.util.stream.Collectors;
 
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<BadRequestExceptionDetails> handleBadRequestException(BadRequestException ex){
-        return new ResponseEntity<>(BadRequestExceptionDetails.builder().timestamp(LocalDateTime.now()).error("Bad request exception")
-                                            .status(HttpStatus.BAD_REQUEST.value()).details(ex.getMessage()).build(),
+    public ResponseEntity<BadRequestExceptionDetails> handleBadRequestException(BadRequestException ex) {
+        return new ResponseEntity<>(BadRequestExceptionDetails.builder()
+                                            .timestamp(LocalDateTime.now())
+                                            .error("Bad request exception")
+                                            .status(HttpStatus.BAD_REQUEST.value())
+                                            .details(ex.getMessage())
+                                            .build(),
                                     HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<NotFoundExceptionDetails> handleNotFoundException(NotFoundException ex){
+    public ResponseEntity<NotFoundExceptionDetails> handleNotFoundException(NotFoundException ex) {
         return new ResponseEntity<>(
-                NotFoundExceptionDetails.builder().timestamp(LocalDateTime.now()).error("Not found").status(HttpStatus.NOT_FOUND.value())
-                        .details(ex.getMessage()).build(),HttpStatus.NOT_FOUND);
+                NotFoundExceptionDetails.builder()
+                        .timestamp(LocalDateTime.now())
+                        .error("Not found")
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .details(ex.getMessage())
+                        .build(), HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(EmailAlreadyExistException.class)
-    public ResponseEntity<EmailAlreadyExistExceptionDetails> handleEmailAlreadyExistException(EmailAlreadyExistException ex){
+    public ResponseEntity<EmailAlreadyExistExceptionDetails> handleEmailAlreadyExistException(EmailAlreadyExistException ex) {
         return new ResponseEntity<>(
-                EmailAlreadyExistExceptionDetails.builder().timestamp(LocalDateTime.now()).error("Conflict").status(HttpStatus.CONFLICT.value())
-                        .details(ex.getMessage()).build(),HttpStatus.CONFLICT);
+                EmailAlreadyExistExceptionDetails.builder()
+                        .timestamp(LocalDateTime.now())
+                        .error("Conflict")
+                        .status(HttpStatus.CONFLICT.value())
+                        .details(ex.getMessage())
+                        .build(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<UnauthorizedExceptionDetails> handleUnauthorizedException(UnauthorizedException ex){
+    public ResponseEntity<UnauthorizedExceptionDetails> handleUnauthorizedException(UnauthorizedException ex) {
         return new ResponseEntity<>(
-                UnauthorizedExceptionDetails.builder().timestamp(LocalDateTime.now()).error("Conflict").status(HttpStatus.UNAUTHORIZED.value())
-                        .details(ex.getMessage()).build(),HttpStatus.UNAUTHORIZED);
+                UnauthorizedExceptionDetails.builder()
+                        .timestamp(LocalDateTime.now())
+                        .error("Conflict")
+                        .status(HttpStatus.UNAUTHORIZED.value())
+                        .details(ex.getMessage())
+                        .build(), HttpStatus.UNAUTHORIZED);
     }
 
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -64,12 +79,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         ValidationExceptionDetails validationExceptionDetails = ValidationExceptionDetails.builder()
                 .timestamp(LocalDateTime.now())
                 .status(status.value())
-                .details("Verifique os campos com erro")
+                .details("Check the fields with errors")
                 .fields(fields)
                 .fieldsMessage(fieldsMessage)
                 .build();
 
         return new ResponseEntity<>(validationExceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<InternalServerErrorExceptionDetails> handleInternalServerErrorException(Exception ex) {
+        InternalServerErrorExceptionDetails errorDetails = InternalServerErrorExceptionDetails.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .error("Internal Server Error")
+                .details("An unexpected error occurred. Please try again later.")
+                .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 

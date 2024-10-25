@@ -10,12 +10,12 @@ public record ClassOutput(
         Long classId,
         String name,
         String instructor,
-        List<StudentOutput> students
+        List<ClassStudentOutput> students
 ) {
     public static ClassOutput fromEntity(ClassModel classModel) {
-        List<StudentOutput> students = new ArrayList<>();
+        List<ClassStudentOutput> students = new ArrayList<>();
         for (StudentModel studentModel : classModel.getStudents()) {
-            students.add(StudentOutput.fromEntity(studentModel));
+            students.add(ClassStudentOutput.fromEntity(studentModel));
         }
         return new ClassOutput(
                 classModel.getId(),
