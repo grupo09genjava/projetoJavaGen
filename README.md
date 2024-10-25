@@ -1,4 +1,4 @@
-# Projeto API Java Generation Curso AWS
+# MS School
 
 Este projeto é sobre um gerenciador desenvolvido para auxilar quem usa em seus registros de alunos, turmas e funcionários.
 
