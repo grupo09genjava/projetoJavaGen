@@ -11,6 +11,8 @@ public record RegisterStudent(
         String email,
         @NotNull(message = "Age is required.")
         @Positive(message = "Age must be a positive number.")
-        Integer age
+        Integer age,
+        @NotNull(message = "TurmaId is required.")
+        Long classId
 ){
 }
