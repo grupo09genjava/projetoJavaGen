@@ -30,7 +30,7 @@ public class AuthController{
 
     @Operation(description = "Employee login")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Employee login successfully."),
+            @ApiResponse(responseCode = "200", description = "Employee login successfully."),
             @ApiResponse(responseCode = "400", description = "Bad credentials. Invalid data provided for login."),
             @ApiResponse(responseCode = "409", description = "A conflict occurred with the current state of the resource. " +
                     "Please check the data and try again."),
